@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:blurred_bottom_nav_bar/app_theme.dart';
+import 'package:blurred_bottom_nav_bar/item_page.dart';
+import 'package:blurred_bottom_nav_bar/my_custom_clipper.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -24,9 +26,15 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class FinalViewPage extends StatelessWidget {
+class FinalViewPage extends StatefulWidget {
   const FinalViewPage({super.key});
 
+  @override
+  State<FinalViewPage> createState() => _FinalViewPageState();
+}
+
+class _FinalViewPageState extends State<FinalViewPage> {
+  int selectedItem = 0;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -104,17 +112,67 @@ class FinalViewPage extends StatelessWidget {
                   bottomRight: Radius.circular(52),
                 ),
                 child: ClipPath(
+                  clipper: MyCustomClipper(),
                   child: BackdropFilter(
                     filter: ImageFilter.blur(
-                      sigmaX: 5,
-                      sigmaY: 5,
+                      sigmaX: 8,
+                      sigmaY: 8,
                     ),
                     child: Container(),
                   ),
                 ),
               ),
             ),
-          )
+          ),
+          Positioned(
+            bottom: 18,
+            left: 22,
+            right: 22,
+            height: 86,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                ItemPage(
+                  icon: Icons.home_outlined,
+                  isSelected: selectedItem == 0,
+                  onTap: () {
+                    setState(() {
+                      selectedItem = 0;
+                    });
+                  },
+                ),
+                ItemPage(
+                  icon: Icons.apps,
+                  isSelected: selectedItem == 1,
+                  onTap: () {
+                    setState(() {
+                      selectedItem = 1;
+                    });
+                  },
+                ),
+                ItemPage(
+                  icon: Icons.notifications_outlined,
+                  isSelected: selectedItem == 2,
+                  onTap: () {
+                    setState(() {
+                      selectedItem = 2;
+                    });
+                  },
+                ),
+                ItemPage(
+                  icon: Icons.settings_outlined,
+                  isSelected: selectedItem == 3,
+                  onTap: () {
+                    setState(() {
+                      selectedItem = 3;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
